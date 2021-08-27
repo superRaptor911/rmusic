@@ -38,3 +38,10 @@ rmusic "search query"
 ```
 rmusic "linkin park numb"
 ```
+
+## example to download mp3
+
+
+```
+rmusic "linkin park numb" -s
+```

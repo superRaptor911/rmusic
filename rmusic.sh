@@ -48,10 +48,11 @@ rmusicHelp() {
 parseArgs
 
 
-if [[ $customOutput -eq 0 ]]; then
+if [[ $saveMusic -eq 0 ]]; then
     url=$(youtube-dl -f 140 -g "ytsearch1:$searchQuery")
     cvlc "$url"
 else
+    echo "Downloading $searchQuery"
     outputName="$searchQuery.mp3"
     youtube-dl -f 140 "ytsearch1:$searchQuery" --audio-format mp3 -o "$outputName"
 fi
