@@ -50,7 +50,7 @@ parseArgs
 
 if [[ $saveMusic -eq 0 ]]; then
     url=$(youtube-dl -f 140 -g "ytsearch1:$searchQuery")
-    cvlc "$url"
+    cvlc --play-and-exit "$url"
 else
     echo "Downloading $searchQuery"
     outputName="$searchQuery.mp3"
