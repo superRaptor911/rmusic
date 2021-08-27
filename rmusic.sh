@@ -3,25 +3,27 @@
 arg_count=$#
 args=("$@")
 
-customOutput=0
+saveMusic=0
 outputName=""
 
 searchQuery=""
-outputDir=~/.cache/rmusic
 
 parseArgs(){
+    
+    if [[ $arg_count -eq 0 ]]; then
+        rmusicHelp
+        exit 0
+    fi
+
     for (( i=0; i<$arg_count; i++ ))
     do
         case "${args[$i]}" in
-            -o)
-                customOutput=1
-                let i=$i+1
-                outputName="${args[$i]}"
-
-                if [ "$outputName" == "" ]; then
-                    echo "Error : empty file name"
-                    exit 2
-                fi
+            -s)
+                saveMusic=1
+                ;;
+            -h)
+                rmusicHelp
+                exit 0
                 ;;
             *)
                 searchQuery="${args[$i]}"
@@ -29,15 +31,29 @@ parseArgs(){
     done
 }
 
+rmusicHelp() {
+    echo -e "Rmusic - listen and download music from youtube\n"
+    echo "usage "
+    echo -e "rmusic \"search query\"\n"
 
+    echo "example "
+    echo -e "rmusic \"linkin park numb\"\n"
+
+    echo "Commands -"
+    echo -e "  -s           \t\tTo save as mp3"
+    echo -e "  -h           \t\tto show help"
+}
+
+###################### Main ##############################
 parseArgs
 
+
 if [[ $customOutput -eq 0 ]]; then
-    outputName="$searchQuery.m4a"
+    url=$(youtube-dl -f 140 -g "ytsearch1:$searchQuery")
+    cvlc "$url"
+else
+    outputName="$searchQuery.mp3"
+    youtube-dl -f 140 "ytsearch1:$searchQuery" --audio-format mp3 -o "$outputName"
 fi
 
-mkdir -p outputDir
-fullPath="$outputDir/$outputName"
 
-youtube-dl -f 140 "ytsearch1:$searchQuery" -o "$fullPath" &&
-    cvlc "$fullPath"

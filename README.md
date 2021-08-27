@@ -24,7 +24,7 @@ sudo apt update && sudo apt install youtube-dl ffmpeg vlc
 To install rmusic, run this command
 
 ```
-git clone https://github.com/superRaptor911/rmusic.git && cd rmusic && mv rmusic.sh ~/.local/bin/rmusic
+git clone https://github.com/superRaptor911/rmusic.git && cd rmusic && mv rmusic.sh ~/.local/bin/rmusic && cd .. && rm -rf rmusic
 ```
 
 # usage
